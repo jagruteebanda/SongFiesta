@@ -1,30 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
-import audioUtil from '../../../utils/AudioPlayerUtil';
 import AudioControls from '../components/AudioControls';
 import AudioImageCard from '../components/AudioImageCard';
 import HeaderControls from '../components/HeaderControls';
-import TrackPlayer, {
-  useTrackPlayerEvents,
-  Event,
-  State,
-} from 'react-native-track-player';
+import TrackPlayer from 'react-native-track-player';
+
 const {width, height} = Dimensions.get('window');
 
 const PlayerDetailsContainer = props => {
   const {route, navigation} = props;
+  const {audioData, audioDetails, initialAudioIndex} = route?.params;
+
+  const [audioInfo, setAudioInfo] = useState(audioDetails);
+  const [audioIndex, setAudioIndex] = useState(initialAudioIndex);
   const [isPlaying, setIsPlaying] = useState(false);
   const [seekValue, setSeekValue] = useState(0.0);
   const [audioDuration, setAudioDuration] = useState(0.0);
-  const {audioInfo} = route?.params;
+  const [isMute, setIsMute] = useState(false);
+
+  const playAudioTrack = async () => {
+    await TrackPlayer.skip(audioIndex);
+    await TrackPlayer.play();
+  };
 
   useEffect(() => {
-    audioUtil.getAudioDuration(audioInfo?.url, audioDuration => {
-      setAudioDuration(audioDuration);
-    });
+    playAudioTrack();
   }, []);
 
-  const handleBackPress = () => {
+  const handleBackPress = async () => {
+    await TrackPlayer.stop();
     navigation?.goBack?.();
   };
 
@@ -39,6 +43,12 @@ const PlayerDetailsContainer = props => {
         seekValue={seekValue}
         setSeekValue={setSeekValue}
         audioDuration={audioDuration}
+        isMute={isMute}
+        setIsMute={setIsMute}
+        audioIndex={audioIndex}
+        setAudioIndex={setAudioIndex}
+        setAudioInfo={setAudioInfo}
+        audioData={audioData}
       />
     </View>
   );
@@ -49,10 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
   },
-});
-
-PlayerDetailsContainer.navigationOptions = () => ({
-  headerShown: false,
 });
 
 export default PlayerDetailsContainer;

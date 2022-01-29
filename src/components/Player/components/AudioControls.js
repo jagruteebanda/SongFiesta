@@ -14,6 +14,12 @@ const AudioControls = props => {
     seekValue = 0.0,
     setSeekValue,
     audioDuration = 0.0,
+    isMute,
+    setIsMute,
+    audioIndex,
+    setAudioInfo,
+    audioData,
+    setAudioIndex
   } = props;
 
   const formatAudioDuration = time => {
@@ -39,6 +45,12 @@ const AudioControls = props => {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         audioInfo={audioInfo}
+        isMute={isMute}
+        setIsMute={setIsMute}
+        audioIndex={audioIndex}
+        setAudioInfo={setAudioInfo}
+        audioData={audioData}
+        setAudioIndex={setAudioIndex}
       />
     </View>
   );

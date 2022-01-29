@@ -1,45 +1,103 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, Dimensions, Pressable, Text} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Pressable,
+  Text,
+  ToastAndroid,
+} from 'react-native';
+import TrackPlayer from 'react-native-track-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import audioUtil from '../../../utils/AudioPlayerUtil';
 
 const {width, height} = Dimensions.get('window');
 
 const ControlsView = props => {
-  const {isPlaying = false, setIsPlaying = () => {}, audioInfo = {}} = props;
+  const {
+    isPlaying = false,
+    setIsPlaying = () => {},
+    audioInfo = {},
+    isMute,
+    setIsMute,
+    audioIndex,
+    setAudioInfo,
+    audioData = [],
+    setAudioIndex,
+  } = props;
 
   useEffect(() => {
-    audioUtil.startAudio(audioInfo?.url);
     setIsPlaying(true);
   }, []);
+
+  const handlePlayerVolume = async () => {
+    if (isMute) {
+      await TrackPlayer.setVolume(5.0);
+      setIsMute(false);
+    } else {
+      await TrackPlayer.setVolume(0);
+      setIsMute(true);
+    }
+  };
+
+  const handlePlayerPauseAndPlay = async () => {
+    if (isPlaying) {
+      await TrackPlayer.pause();
+      setIsPlaying(false);
+    } else {
+      await TrackPlayer.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const handleSkipAudio = async skipType => {
+    switch (skipType) {
+      case 'prev':
+        if (audioIndex > 0) {
+          setAudioInfo(audioData[audioIndex - 1]);
+          setAudioIndex(audioIndex - 1);
+          await TrackPlayer.skipToPrevious();
+        } else {
+          ToastAndroid.show('No previous audio track available', ToastAndroid.SHORT);
+        }
+        break;
+      case 'next':
+        if (audioIndex < audioData.length - 1) {
+          setAudioInfo(audioData[audioIndex + 1]);
+          setAudioIndex(audioIndex + 1);
+          await TrackPlayer.skipToNext();
+        } else {
+          ToastAndroid.show('No next audio track available', ToastAndroid.SHORT);
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <View style={styles.controlsView}>
       <View style={styles.sideIconsView}>
         <MaterialCommunityIcons name="heart" color={'#e6e6e6'} size={25} />
       </View>
-      <Pressable onPress={() => {}}>
+      <Pressable onPress={() => handlePlayerVolume()}>
         <View style={[styles.sideIconsView]}>
           <MaterialCommunityIcons
-            name="volume-off"
-            color={'#e6e6e6'}
+            name={'volume-off'}
+            color={isMute ? '#cc0066' : '#e6e6e6'}
             size={25}
           />
         </View>
       </Pressable>
-      <View style={styles.middleIconsView}>
-        <MaterialCommunityIcons
-          name="skip-previous"
-          color={'#e6e6e6'}
-          size={40}
-        />
-      </View>
-      <Pressable
-        onPress={() => {
-          // TrackPlayer.play()
-          audioUtil.pauseAndPlayAudio();
-          setIsPlaying(p => !p);
-        }}>
+      <Pressable onPress={() => handleSkipAudio('prev')}>
+        <View style={styles.middleIconsView}>
+          <MaterialCommunityIcons
+            name="skip-previous"
+            color={'#e6e6e6'}
+            size={40}
+          />
+        </View>
+      </Pressable>
+      <Pressable onPress={() => handlePlayerPauseAndPlay()}>
         <View style={styles.pausePlayIconView}>
           <MaterialCommunityIcons
             name={isPlaying ? 'pause-circle' : 'play-circle'}
@@ -48,9 +106,15 @@ const ControlsView = props => {
           />
         </View>
       </Pressable>
-      <View style={styles.middleIconsView}>
-        <MaterialCommunityIcons name="skip-next" color={'#e6e6e6'} size={40} />
-      </View>
+      <Pressable onPress={() => handleSkipAudio('next')}>
+        <View style={styles.middleIconsView}>
+          <MaterialCommunityIcons
+            name="skip-next"
+            color={'#e6e6e6'}
+            size={40}
+          />
+        </View>
+      </Pressable>
       <View style={styles.sideIconsView}>
         <MaterialCommunityIcons name="download" color={'white'} size={25} />
       </View>

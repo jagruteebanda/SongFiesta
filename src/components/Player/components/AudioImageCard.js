@@ -4,13 +4,15 @@ import {StyleSheet, View, Dimensions, Image} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 const AudioImageCard = props => {
+  const {audioInfo} = props;
+
   return (
     <View style={styles.imageContainer}>
       <Image
         source={{
-          uri: 'https://e.snmc.io/i/600/s/fab107633af3df9a5ea77742639594d6/7601802/vishal-shekhar-befikre-Cover-Art.png',
+          uri: audioInfo?.artwork,
         }}
-        style={{width: width, height: width}}
+        style={{width: width - 16, height: width - 16, borderRadius: 4}}
       />
     </View>
   );

@@ -7,16 +7,15 @@ import HeaderControls from '../components/HeaderControls';
 const {width, height} = Dimensions.get('window');
 
 const PlayerDetailsContainer = props => {
-	const {
-		audioDetails
-	} = props;
+  const {route} = props;
   const [isPlaying, setIsPlaying] = useState(false);
   const [seekValue, setSeekValue] = useState(0.0);
+  const {audioInfo} = route?.params;
 
   return (
     <View style={styles.container}>
       <HeaderControls />
-      <AudioImageCard />
+      <AudioImageCard audioInfo={audioInfo} />
       <AudioControls
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}

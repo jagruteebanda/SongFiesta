@@ -6,12 +6,10 @@ import audioUtil from '../../../utils/AudioPlayerUtil';
 const {width, height} = Dimensions.get('window');
 
 const ControlsView = props => {
-  const {isPlaying = false, setIsPlaying = () => {}} = props;
+  const {isPlaying = false, setIsPlaying = () => {}, audioInfo = {}} = props;
 
   useEffect(() => {
-    audioUtil.startAudio(
-      'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
-    );
+    audioUtil.startAudio(audioInfo?.url);
     setIsPlaying(true);
   }, []);
 
@@ -38,6 +36,7 @@ const ControlsView = props => {
       </View>
       <Pressable
         onPress={() => {
+          // TrackPlayer.play()
           audioUtil.pauseAndPlayAudio();
           setIsPlaying(p => !p);
         }}>

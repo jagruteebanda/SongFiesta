@@ -20,7 +20,11 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="PlayerDetailsScreen" component={PlayerDetailsContainer} />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="PlayerDetailsScreen"
+            component={PlayerDetailsContainer}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

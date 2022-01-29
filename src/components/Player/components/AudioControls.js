@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Dimensions, Text} from 'react-native';
 import ControlsView from './ControlsView';
 import AudioSeekBar from './AudioSeekBar';
+import {audioData} from '../../../data/audioData';
 
 const {width, height} = Dimensions.get('window');
 
@@ -22,8 +23,11 @@ const AudioControls = props => {
   return (
     <View style={styles.controlsContainer}>
       <View style={styles.audioInfoView}>
-        <Text style={{ color: '#ffffff', fontSize: 20 }}>{audioInfo.title}</Text>
-        <Text style={{ color: '#ffffff' }}>{`${audioInfo.album} - ${audioInfo.artist}`}</Text>
+        <Text style={{color: '#ffffff', fontSize: 20}}>{audioInfo.title}</Text>
+        <Text
+          style={{
+            color: '#ffffff',
+          }}>{`${audioInfo.album} - ${audioInfo.artist}`}</Text>
       </View>
       <AudioSeekBar
         audioInfo={audioInfo}
@@ -31,7 +35,11 @@ const AudioControls = props => {
         setSeekValue={setSeekValue}
         audioDuration={audioDuration}
       />
-      <ControlsView isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+      <ControlsView
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        audioInfo={audioInfo}
+      />
     </View>
   );
 };
@@ -42,7 +50,7 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: '#000000',
     paddingHorizontal: 16,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   seekBarView: {
     width,

@@ -12,7 +12,7 @@ import TrackPlayer, {
 const {width, height} = Dimensions.get('window');
 
 const PlayerDetailsContainer = props => {
-  const {route} = props;
+  const {route, navigation} = props;
   const [isPlaying, setIsPlaying] = useState(false);
   const [seekValue, setSeekValue] = useState(0.0);
   const [audioDuration, setAudioDuration] = useState(0.0);
@@ -24,24 +24,13 @@ const PlayerDetailsContainer = props => {
     });
   }, []);
 
-  // useTrackPlayerEvents((events, event) => {
-  //   if (event.type === Event.PlaybackError) {
-  //     console.warn('An error occurred while playing the current track.');
-  //   }
-  //   if (event.type === Event.PlaybackState) {
-  //     console.log(event.type);
-  //   }
-  //   if (event.type === Event.RemotePlay) {
-  //     console.log(event.type);
-  //   }
-  //   if (event.type === Event.RemotePause) {
-  //     console.log(event.type);
-  //   }
-  // });
+  const handleBackPress = () => {
+    navigation?.goBack?.();
+  };
 
   return (
     <View style={styles.container}>
-      <HeaderControls />
+      <HeaderControls handleBackPress={handleBackPress} />
       <AudioImageCard audioInfo={audioInfo} />
       <AudioControls
         audioInfo={audioInfo}

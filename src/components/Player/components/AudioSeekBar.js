@@ -2,12 +2,11 @@ import React from 'react';
 import {StyleSheet, View, Dimensions, Text} from 'react-native';
 import Slider from '@react-native-community/slider';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
-import {useEffect} from 'react/cjs/react.development';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const AudioSeekBar = props => {
-  const {audioInfo = {}, seekValue, setSeekValue} = props;
+  const {audioInfo = {}} = props;
 
   const progress = useProgress();
 
@@ -31,7 +30,7 @@ const AudioSeekBar = props => {
         style={{width: width - 8, height: 25}}
         step={1}
         onSlidingComplete={v => handleSeekBarChange(v)}
-        value={seekValue}
+        value={progress.position}
         minimumValue={0}
         maximumValue={progress.duration}
         thumbTintColor={'#cc0066'}

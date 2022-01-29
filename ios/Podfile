@@ -20,6 +20,8 @@ target 'SongFiesta' do
 
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
+  pod 'react-native-track-player', :path => '../node_modules/react-native-track-player'
+
   target 'SongFiestaTests' do
     inherit! :complete
     # Pods for testing

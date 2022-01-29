@@ -10,7 +10,7 @@ const AudioImageCard = props => {
         source={{
           uri: 'https://e.snmc.io/i/600/s/fab107633af3df9a5ea77742639594d6/7601802/vishal-shekhar-befikre-Cover-Art.png',
         }}
-        style={{width: width, height: width}}
+        style={{width: width - 16, height: width, borderRadius: 4}}
       />
     </View>
   );

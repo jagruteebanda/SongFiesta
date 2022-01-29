@@ -1,23 +1,31 @@
-import { NativeModules } from 'react-native';
+import {NativeModules} from 'react-native';
 
-const { AudioPlayerModule } = NativeModules;
+const {AudioPlayerModule} = NativeModules;
 
 const audioUtil = {
-  playAudio(url = '') {
-    AudioPlayerModule?.playAudio?.(url);
+  getAudioDuration(audioUrl = '', cb) {
+    AudioPlayerModule?.getAudioDuration?.(audioUrl, audioDuration => cb(audioDuration));
   },
 
-	stopAudio() {
-		AudioPlayerModule?.stopAudio?.();
-	},
+  startAudio(url = '') {
+    AudioPlayerModule?.startAudio?.(url);
+  },
 
-	releaseAudioPlayer() {
-		AudioPlayerModule?.releaseAudioPlayer?.();
-	},
+  pauseAndPlayAudio() {
+    AudioPlayerModule?.pauseAndPlayAudio?.();
+  },
 
-	muteAudio() {
-		AudioPlayerModule?.muteAudio?.();
-	}
+  stopAudio() {
+    AudioPlayerModule?.stopAudio?.();
+  },
+
+  releaseAudioPlayer() {
+    AudioPlayerModule?.releaseAudioPlayer?.();
+  },
+
+  muteAudio() {
+    AudioPlayerModule?.muteAudio?.();
+  },
 };
 
 export default audioUtil;

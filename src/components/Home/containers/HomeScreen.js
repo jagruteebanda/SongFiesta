@@ -9,6 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import {audioData} from '../../../data/audioData';
+import TrackPlayer from 'react-native-track-player';
 
 const {width, height} = Dimensions.get('window');
 
@@ -16,18 +17,24 @@ const HomeScreen = props => {
   const {navigation} = props;
   const [playlist, setPlaylist] = useState([]);
 
+  const setup = async () => {
+    await TrackPlayer.setupPlayer({});
+    await TrackPlayer.add(audioData);
+  };
+
   useEffect(() => {
     setPlaylist(audioData);
+    setup();
   }, []);
 
-  const handleAudioPress = audioInfo => {
-    navigation.navigate('PlayerDetailsScreen', {audioInfo});
+  const handleAudioPress = (audioDetails, initialAudioIndex) => {
+    navigation.navigate('PlayerDetailsScreen', {audioData, audioDetails, initialAudioIndex});
   };
 
   return (
     <ScrollView style={styles.container}>
       {audioData.map((item, i) => (
-        <Pressable key={item.id} onPress={() => handleAudioPress(item)}>
+        <Pressable key={item.id} onPress={() => handleAudioPress(item, i)}>
           <View style={styles.audioCard}>
             <Image style={styles.audioImage} source={{uri: item.artwork}} />
             <View style={styles.audioInfo}>

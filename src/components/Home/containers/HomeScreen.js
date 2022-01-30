@@ -7,25 +7,39 @@ import {
   Dimensions,
   Text,
   Pressable,
+  ToastAndroid,
 } from 'react-native';
 import {audioData} from '../../../data/audioData';
 import TrackPlayer from 'react-native-track-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const HomeScreen = props => {
   const {navigation} = props;
-  const [playlist, setPlaylist] = useState([]);
+  const [playlist] = useState(audioData);
+  const [favouritesData, setFavouritesData] = useState([]);
 
   const setup = async () => {
     await TrackPlayer.setupPlayer({});
-    await TrackPlayer.add(audioData);
+    await TrackPlayer.add(playlist);
+  };
+
+  const getFavouritesData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('audio_track_favourites');
+      if (value !== null) {
+        setFavouritesData(JSON.parse(value) || []);
+      }
+    } catch (e) {
+      ToastAndroid.show('Error in Asyncstorage', ToastAndroid.SHORT);
+    }
   };
 
   useEffect(() => {
-    setPlaylist(audioData);
     setup();
+    getFavouritesData();
   }, []);
 
   const handleAudioPress = (audioDetails, initialAudioIndex) => {
@@ -33,6 +47,8 @@ const HomeScreen = props => {
       audioData,
       audioDetails,
       initialAudioIndex,
+      favouritesData,
+      setFavouritesData
     });
   };
 

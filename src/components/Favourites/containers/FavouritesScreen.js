@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useContext, useEffect, useLayoutEffect} from 'react';
 import {
   Image,
   Pressable,
@@ -12,7 +12,7 @@ import TrackPlayer from 'react-native-track-player';
 import {audioData} from '../../../data/audioData';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const FavouritesScreen = props => {
   const {navigation} = props;

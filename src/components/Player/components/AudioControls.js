@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, View, Dimensions, Text} from 'react-native';
 import ControlsView from './ControlsView';
 import AudioSeekBar from './AudioSeekBar';
-import {audioData} from '../../../data/audioData';
 
 const {width, height} = Dimensions.get('window');
 
@@ -19,21 +18,28 @@ const AudioControls = props => {
     audioIndex,
     setAudioInfo,
     audioData,
-    setAudioIndex
+    setAudioIndex,
+    favouritesData,
+    setFavouritesData,
+    isFavourite,
+    setIsFavourite,
   } = props;
-
-  const formatAudioDuration = time => {
-    return `${time.toFixed(2)}`;
-  };
 
   return (
     <View style={styles.controlsContainer}>
       <View style={styles.audioInfoView}>
-        <Text style={{color: '#ffffff', fontSize: 20, fontFamily: 'KleeOne-SemiBold'}}>{audioInfo.title}</Text>
+        <Text
+          style={{
+            color: '#ffffff',
+            fontSize: 20,
+            fontFamily: 'KleeOne-SemiBold',
+          }}>
+          {audioInfo.title}
+        </Text>
         <Text
           style={{
             color: '#cc0066',
-            fontFamily: 'KleeOne-Regular'
+            fontFamily: 'KleeOne-Regular',
           }}>{`${audioInfo.album} - ${audioInfo.artist}`}</Text>
       </View>
       <AudioSeekBar
@@ -52,6 +58,10 @@ const AudioControls = props => {
         setAudioInfo={setAudioInfo}
         audioData={audioData}
         setAudioIndex={setAudioIndex}
+        favouritesData={favouritesData}
+        setFavouritesData={setFavouritesData}
+        isFavourite={isFavourite}
+        setIsFavourite={setIsFavourite}
       />
     </View>
   );

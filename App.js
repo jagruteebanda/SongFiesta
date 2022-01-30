@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -10,7 +10,7 @@ import SplashScreen from './src/components/Splash/containers/SplashScreen';
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigator = ({navigation}) => {
+const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -39,11 +39,11 @@ const App = () => {
     <SafeAreaView style={styles.sectionContainer}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
+          {/* <Stack.Screen
             options={{headerShown: false}}
             name="SplashScreen"
             component={SplashScreen}
-          />
+          /> */}
           <Stack.Screen
             options={{headerShown: false}}
             name="Drawer"

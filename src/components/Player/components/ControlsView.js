@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 
@@ -23,11 +24,37 @@ const ControlsView = props => {
     setAudioInfo,
     audioData = [],
     setAudioIndex,
+    favouritesData,
+    setFavouritesData,
+    isFavourite,
+    setIsFavourite,
   } = props;
 
   useEffect(() => {
     setIsPlaying(true);
   }, []);
+
+  const setFavouritesDataInAsync = async favouritesData => {
+    try {
+      await AsyncStorage.setItem('audio_track_favourites', JSON.stringify(favouritesData));
+    } catch (error) {
+      ToastAndroid.show('Error in setting AsyncStorage', ToastAndroid.SHORT);
+    }
+  };
+
+  const handleFavouritePress = () => {
+    let favData = favouritesData;
+    if (isFavourite) {
+      favData = favData.filter(f => f.id !== audioInfo.id);
+      ToastAndroid.show('Removed from favourites', ToastAndroid.SHORT);
+    } else {
+      favData.push(audioInfo);
+      ToastAndroid.show('Added to favourites', ToastAndroid.SHORT);
+    }
+    setFavouritesDataInAsync(favData);
+    setFavouritesData([...favData]);
+    setIsFavourite(f => !f);
+  };
 
   const handlePlayerVolume = async () => {
     if (isMute) {
@@ -103,9 +130,15 @@ const ControlsView = props => {
 
   return (
     <View style={styles.controlsView}>
-      <View style={styles.sideIconsView}>
-        <MaterialCommunityIcons name="heart" color={'#e6e6e6'} size={25} />
-      </View>
+      <Pressable onPress={() => handleFavouritePress()}>
+        <View style={styles.sideIconsView}>
+          <MaterialCommunityIcons
+            name="heart"
+            color={isFavourite ? '#cc0066' : '#e6e6e6'}
+            size={25}
+          />
+        </View>
+      </Pressable>
       <Pressable onPress={() => handlePlayerVolume()}>
         <View style={[styles.sideIconsView]}>
           <MaterialCommunityIcons

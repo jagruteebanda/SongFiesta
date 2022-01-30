@@ -29,10 +29,11 @@ const AudioControls = props => {
   return (
     <View style={styles.controlsContainer}>
       <View style={styles.audioInfoView}>
-        <Text style={{color: '#ffffff', fontSize: 20}}>{audioInfo.title}</Text>
+        <Text style={{color: '#ffffff', fontSize: 20, fontFamily: 'KleeOne-SemiBold'}}>{audioInfo.title}</Text>
         <Text
           style={{
-            color: '#ffffff',
+            color: '#cc0066',
+            fontFamily: 'KleeOne-Regular'
           }}>{`${audioInfo.album} - ${audioInfo.artist}`}</Text>
       </View>
       <AudioSeekBar

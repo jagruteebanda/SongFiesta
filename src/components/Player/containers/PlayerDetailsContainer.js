@@ -3,7 +3,7 @@ import {StyleSheet, View, Dimensions} from 'react-native';
 import AudioControls from '../components/AudioControls';
 import AudioImageCard from '../components/AudioImageCard';
 import HeaderControls from '../components/HeaderControls';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {Event, useTrackPlayerEvents} from 'react-native-track-player';
 
 const {width, height} = Dimensions.get('window');
 
@@ -26,6 +26,13 @@ const PlayerDetailsContainer = props => {
   useEffect(() => {
     playAudioTrack();
   }, []);
+
+  useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
+    if (event.type === Event.PlaybackTrackChanged && event.nextTrack != null) {
+      const track = await TrackPlayer.getTrack(event.nextTrack);
+      setAudioInfo(track);
+    }
+  });
 
   const handleBackPress = async () => {
     await TrackPlayer.stop();

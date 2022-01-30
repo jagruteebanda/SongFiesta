@@ -36,32 +36,46 @@ const HomeScreen = props => {
     });
   };
 
+  const handleMenuPress = () => {};
+
   return (
     <>
       <View
         style={{
           height: 60,
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           backgroundColor: '#000000',
           borderBottomWidth: 1,
           borderColor: '#262626',
           flexDirection: 'row',
+          paddingHorizontal: 16
         }}>
-        <MaterialCommunityIcons
-          name="music-note-sixteenth-dotted"
-          color={'#99004d'}
-          size={30}
-        />
-        <Text
+        <Pressable onPress={() => handleMenuPress()}>
+          <MaterialCommunityIcons name="menu" color={'#99004d'} size={24} />
+        </Pressable>
+        <View
           style={{
-            fontSize: 30,
-            color: '#cc0066',
-            fontFamily: 'Quintessential-Regular',
-            marginLeft: 8,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-          {'SongFiesta'}
-        </Text>
+          <MaterialCommunityIcons
+            name="music-note-sixteenth-dotted"
+            color={'#99004d'}
+            size={30}
+          />
+          <Text
+            style={{
+              fontSize: 30,
+              color: '#cc0066',
+              fontFamily: 'Quintessential-Regular',
+              marginLeft: 8,
+            }}>
+            {'SongFiesta'}
+          </Text>
+        </View>
+        <MaterialCommunityIcons name="menu" color={'#000000'} size={24} />
       </View>
       <ScrollView style={styles.container}>
         {audioData.map((item, i) => (
@@ -95,7 +109,6 @@ const styles = StyleSheet.create({
     width: width - 16,
     backgroundColor: '#000000',
     elevation: 2,
-    // paddingBottom: 4,
     borderBottomWidth: 1,
     borderColor: '#1a1a1a',
   },

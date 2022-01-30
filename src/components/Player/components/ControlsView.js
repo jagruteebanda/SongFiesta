@@ -114,19 +114,10 @@ const ControlsView = props => {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `Listen to ${audioInfo.title} by ${audioInfo.artist} on SongFiesta`,
+        message: `Download SongFiesta to listen and download cool music\nListen to ${audioInfo.title} by ${audioInfo.artist} on SongFiesta\n${audioInfo.url}`,
         url: audioInfo.url,
         title: 'Download SongFiesta to listen and download cool music',
       });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
     } catch (error) {
       ToastAndroid.show(error.message, ToastAndroid.SHORT);
     }
@@ -143,15 +134,13 @@ const ControlsView = props => {
           />
         </View>
       </Pressable>
-      <Pressable onPress={() => handlePlayerVolume()}>
-        <View style={[styles.sideIconsView]}>
-          <MaterialCommunityIcons
-            name={'volume-off'}
-            color={isMute ? '#cc0066' : '#e6e6e6'}
-            size={25}
-          />
-        </View>
-      </Pressable>
+      <View style={[styles.sideIconsView, {opacity: 0}]}>
+        <MaterialCommunityIcons
+          name={'volume-off'}
+          color={isMute ? '#cc0066' : '#e6e6e6'}
+          size={25}
+        />
+      </View>
       <Pressable onPress={() => handleSkipAudio('prev')}>
         <View style={styles.middleIconsView}>
           <MaterialCommunityIcons
@@ -179,7 +168,7 @@ const ControlsView = props => {
           />
         </View>
       </Pressable>
-      <View style={styles.sideIconsView}>
+      <View style={[styles.sideIconsView, {opacity: 0}]}>
         <MaterialCommunityIcons name="download" color={'white'} size={25} />
       </View>
       <Pressable onPress={() => onShare()}>

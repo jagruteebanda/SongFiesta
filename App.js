@@ -46,11 +46,11 @@ const App = () => {
     <SafeAreaView style={styles.sectionContainer}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
+          {/* <Stack.Screen
             options={{headerShown: false}}
             name="SplashScreen"
             component={SplashScreen}
-          />
+          /> */}
           <Stack.Screen
             options={{headerShown: false}}
             name="Drawer"

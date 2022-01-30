@@ -1,72 +1,39 @@
-import React, {useState, useEffect, useLayoutEffect, useCallback} from 'react';
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ToastAndroid,
-} from 'react-native';
-import TrackPlayer from 'react-native-track-player';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useState, useLayoutEffect, useCallback} from 'react';
+import {ScrollView, StyleSheet} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-
-const {width, height} = Dimensions.get('window');
+import {getFavouritesData} from '../utils/favouriteUtil';
+import {setupAudioPlayer} from '../../Player/utils/audioPlayerUtil';
+import {setHeaderNavigationOptions} from '../../../styles/headerNavigationOptions';
+import {Constants} from '../../../common/Constants';
+import AudioCard from '../../Home/components/AudioCard';
+import EmptyFavouritesView from '../components/EmptyFavouritesView';
 
 const FavouritesScreen = props => {
   const {navigation} = props;
   const [favouritesData, setFavouritesData] = useState([]);
 
-  const getFavouritesData = useCallback(async () => {
-    try {
-      const value = await AsyncStorage.getItem('audio_track_favourites');
-      if (value !== null) {
-        let audioData = JSON.parse(value);
-        setFavouritesData(audioData || []);
-        setup(audioData);
-      }
-    } catch (e) {
-      ToastAndroid.show('Error in Asyncstorage', ToastAndroid.SHORT);
-    }
-  });
-
   useFocusEffect(
     useCallback(() => {
-      getFavouritesData();
+      const getData = async () => {
+        const favData = await getFavouritesData();
+        setFavouritesData([...favData]);
+        setupAudioPlayer(favData);
+      };
+      getData();
     }, []),
   );
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <Pressable onPress={() => navigation?.openDrawer?.()}>
-          <View style={{marginLeft: 16}}>
-            <MaterialCommunityIcons name="menu" color={'#99004d'} size={24} />
-          </View>
-        </Pressable>
+    navigation.setOptions(
+      setHeaderNavigationOptions(
+        navigation,
+        Constants.screenTitles.favouritesScreen,
       ),
-      headerTitle: 'Favourites',
-      headerStyle: {
-        backgroundColor: '#000000',
-        height: 60,
-      },
-      headerTitleStyle: {
-        fontFamily: 'KleeOne-Regular',
-        color: '#cc0066',
-      },
-    });
+    );
   }, [navigation]);
 
-  const setup = async audioData => {
-    await TrackPlayer.setupPlayer({});
-    await TrackPlayer.add(audioData);
-  };
-
   const handleAudioPress = (audioDetails, initialAudioIndex) => {
-    navigation.navigate('PlayerDetailsScreen', {
+    navigation.navigate(Constants.screenKeys.playerScreen, {
       audioData: favouritesData,
       audioDetails,
       initialAudioIndex,
@@ -79,122 +46,24 @@ const FavouritesScreen = props => {
     <ScrollView style={styles.container}>
       {favouritesData?.length > 0 ? (
         favouritesData.map((item, i) => (
-          <Pressable key={item.id} onPress={() => handleAudioPress(item, i)}>
-            <View style={styles.audioCard}>
-              <Image style={styles.audioImage} source={{uri: item.artwork}} />
-              <View style={styles.audioInfo}>
-                <View>
-                  <Text style={styles.audioHeading}>{item.title}</Text>
-                  <Text
-                    style={
-                      styles.audioSubHeading
-                    }>{`${item.album} - ${item.artist}`}</Text>
-                </View>
-                <View style={{paddingTop: 8}}>
-                  <MaterialCommunityIcons
-                    name="heart"
-                    color={'#cc0066'}
-                    size={20}
-                  />
-                </View>
-              </View>
-            </View>
-          </Pressable>
+          <AudioCard
+            key={item.id}
+            audioInfo={item}
+            handleAudioPress={() => handleAudioPress(item, i)}
+            shouldShowFavourite
+          />
         ))
       ) : (
-        <View
-          style={{
-            flex: 1,
-            width,
-            height: height - 100,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Pressable onPress={() => navigation?.navigate?.('Home')}>
-            <View
-              style={{
-                paddingHorizontal: 20,
-                paddingVertical: 8,
-                borderColor: '#cc0066',
-                borderWidth: 1,
-                borderRadius: 4,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Text
-                style={{
-                  color: '#cc0066',
-                  fontFamily: 'KleeOne-SemiBold',
-                  fontSize: 18,
-                }}>
-                {'Explore Songs'}
-              </Text>
-            </View>
-          </Pressable>
-        </View>
+        <EmptyFavouritesView navigation={navigation} />
       )}
     </ScrollView>
   );
-};
-
-FavouritesScreen.screenOptions = () => {
-  return {
-    headerLeft: () => (
-      <Pressable onPress={() => navigation?.openDrawer?.()}>
-        <View style={{marginLeft: 16}}>
-          <MaterialCommunityIcons name="menu" color={'#99004d'} size={24} />
-        </View>
-      </Pressable>
-    ),
-    headerTitle: 'Favourites',
-    headerStyle: {
-      backgroundColor: '#000000',
-      height: 60,
-    },
-    headerTitleStyle: {
-      fontFamily: 'KleeOne-Regular',
-      color: '#cc0066',
-    },
-  };
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0d0d0d',
-  },
-  audioCard: {
-    flexDirection: 'row',
-    paddingVertical: 8,
-    marginHorizontal: 8,
-    width: width - 16,
-    backgroundColor: '#000000',
-    elevation: 2,
-    borderBottomWidth: 1,
-    borderColor: '#1a1a1a',
-  },
-  audioImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 2,
-  },
-  audioInfo: {
-    flex: 1,
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    justifyContent: 'space-between',
-  },
-  audioHeading: {
-    marginTop: 4,
-    color: '#cc0066',
-    fontSize: 18,
-    fontFamily: 'KleeOne-SemiBold',
-  },
-  audioSubHeading: {
-    marginTop: 4,
-    color: '#e6e6e6',
-    fontSize: 14,
-    fontFamily: 'KleeOne-Regular',
   },
 });
 

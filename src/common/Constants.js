@@ -21,6 +21,7 @@ export const Constants = {
     heart: 'heart',
     menu: 'menu',
     appIcon: 'music-note-sixteenth-dotted',
+    back: "chevron-left"
   },
   strings: {
     exploreSongs: 'Explore Songs',

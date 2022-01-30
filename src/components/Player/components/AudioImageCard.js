@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Dimensions, Image} from 'react-native';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const AudioImageCard = props => {
   const {audioInfo} = props;
@@ -12,7 +12,7 @@ const AudioImageCard = props => {
         source={{
           uri: audioInfo?.artwork,
         }}
-        style={{width: width - 16, height: width - 16, borderRadius: 4}}
+        style={styles.imageStyle}
       />
     </View>
   );
@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#1a1a1a',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  imageStyle: {
+    width: width - 16,
+    height: width - 16,
+    borderRadius: 4,
   },
 });
 

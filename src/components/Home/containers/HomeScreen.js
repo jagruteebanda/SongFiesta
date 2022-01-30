@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import {audioData} from '../../../data/audioData';
 import {useFocusEffect} from '@react-navigation/native';
 import {setupAudioPlayer} from '../../Player/utils/audioPlayerUtil';
@@ -7,8 +7,6 @@ import {Constants} from '../../../common/Constants';
 import AppHeader from '../components/AppHeader';
 import AudioCard from '../components/AudioCard';
 import {getFavouritesData} from '../../Favourites/utils/favouriteUtil';
-
-const {width} = Dimensions.get('window');
 
 const HomeScreen = props => {
   const {navigation} = props;

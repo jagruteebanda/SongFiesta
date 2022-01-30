@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {
   Image,
   Pressable,
@@ -6,15 +6,37 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import { audioData } from '../../../data/audioData';
-const {width, height} = Dimensions.get('window');
+import {audioData} from '../../../data/audioData';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+const {width, height} = Dimensions.get('window');
 
 const FavouritesScreen = props => {
   const {navigation} = props;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Pressable onPress={() => navigation?.openDrawer?.()}>
+          <View style={{marginLeft: 16}}>
+            <MaterialCommunityIcons name="menu" color={'#99004d'} size={24} />
+          </View>
+        </Pressable>
+      ),
+      headerTitle: 'Favourites',
+      headerStyle: {
+        backgroundColor: '#000000',
+        height: 60,
+      },
+      headerTitleStyle: {
+        fontFamily: 'KleeOne-Regular',
+        color: '#cc0066',
+      },
+    });
+  }, [navigation]);
 
   const setup = async () => {
     await TrackPlayer.setupPlayer({});
@@ -22,12 +44,15 @@ const FavouritesScreen = props => {
   };
 
   useEffect(() => {
-    setPlaylist(audioData);
     setup();
   }, []);
 
   const handleAudioPress = (audioDetails, initialAudioIndex) => {
-    navigation.navigate('PlayerDetailsScreen', {audioData, audioDetails, initialAudioIndex});
+    navigation.navigate('PlayerDetailsScreen', {
+      audioData,
+      audioDetails,
+      initialAudioIndex,
+    });
   };
 
   return (
@@ -50,33 +75,61 @@ const FavouritesScreen = props => {
   );
 };
 
+FavouritesScreen.screenOptions = () => {
+  return {
+    headerLeft: () => (
+      <Pressable onPress={() => navigation?.openDrawer?.()}>
+        <View style={{marginLeft: 16}}>
+          <MaterialCommunityIcons name="menu" color={'#99004d'} size={24} />
+        </View>
+      </Pressable>
+    ),
+    headerTitle: 'Favourites',
+    headerStyle: {
+      backgroundColor: '#000000',
+      height: 60,
+    },
+    headerTitleStyle: {
+      fontFamily: 'KleeOne-Regular',
+      color: '#cc0066',
+    },
+  };
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0d0d0d',
   },
   audioCard: {
     flexDirection: 'row',
-    marginTop: 8,
+    paddingVertical: 8,
     marginHorizontal: 8,
     width: width - 16,
     backgroundColor: '#000000',
-    // elevation: 2,
+    elevation: 2,
+    borderBottomWidth: 1,
+    borderColor: '#1a1a1a',
   },
   audioImage: {
     width: 70,
     height: 70,
+    borderRadius: 2,
   },
   audioInfo: {
     paddingLeft: 16,
   },
   audioHeading: {
-    color: '#e6e6e6',
-    fontSize: 20,
+    marginTop: 4,
+    color: '#cc0066',
+    fontSize: 18,
+    fontFamily: 'KleeOne-SemiBold',
   },
   audioSubHeading: {
+    marginTop: 4,
     color: '#e6e6e6',
     fontSize: 14,
+    fontFamily: 'KleeOne-Regular',
   },
 });
 

@@ -1,6 +1,5 @@
-import React from 'react';
-import {Image, Text, View} from 'react-native';
-import {useEffect, useState} from 'react/cjs/react.development';
+import React, {useEffect} from 'react';
+import {Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const SplashScreen = props => {
@@ -8,7 +7,7 @@ const SplashScreen = props => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation?.navigate?.('HomeScreen');
+      navigation?.navigate?.('Drawer');
     }, 3000);
   }, []);
 

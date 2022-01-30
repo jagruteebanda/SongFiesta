@@ -36,7 +36,9 @@ const HomeScreen = props => {
     });
   };
 
-  const handleMenuPress = () => {};
+  const handleMenuPress = () => {
+    navigation?.openDrawer?.();
+  };
 
   return (
     <>
@@ -49,7 +51,7 @@ const HomeScreen = props => {
           borderBottomWidth: 1,
           borderColor: '#262626',
           flexDirection: 'row',
-          paddingHorizontal: 16
+          paddingHorizontal: 16,
         }}>
         <Pressable onPress={() => handleMenuPress()}>
           <MaterialCommunityIcons name="menu" color={'#99004d'} size={24} />

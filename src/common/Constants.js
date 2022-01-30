@@ -1,7 +1,7 @@
 export const Constants = {
   //screen titles
   screenTitles: {
-    appName: 'Song Fiesta',
+    appName: 'SongFiesta',
     homeScreen: 'Home',
     favouritesScreen: 'Favourites',
   },
@@ -15,11 +15,14 @@ export const Constants = {
     black: '#000000',
     white: '#ffffff',
     pink: '#cc0066',
+    darkPink: '#99004d',
   },
-	iconNames: {
-		heart: 'heart'
-	},
-	strings: {
-		exploreSongs: 'Explore Songs'
-	}
+  iconNames: {
+    heart: 'heart',
+    menu: 'menu',
+    appIcon: 'music-note-sixteenth-dotted',
+  },
+  strings: {
+    exploreSongs: 'Explore Songs',
+  },
 };

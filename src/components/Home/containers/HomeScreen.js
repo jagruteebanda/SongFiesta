@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -13,17 +13,17 @@ import {audioData} from '../../../data/audioData';
 import TrackPlayer from 'react-native-track-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 const HomeScreen = props => {
   const {navigation} = props;
-  const [playlist] = useState(audioData);
   const [favouritesData, setFavouritesData] = useState([]);
 
   const setup = async () => {
     await TrackPlayer.setupPlayer({});
-    await TrackPlayer.add(playlist);
+    await TrackPlayer.add(audioData);
   };
 
   const getFavouritesData = async () => {
@@ -37,10 +37,12 @@ const HomeScreen = props => {
     }
   };
 
-  useEffect(() => {
-    setup();
-    getFavouritesData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setup();
+      getFavouritesData();
+    }, []),
+  );
 
   const handleAudioPress = (audioDetails, initialAudioIndex) => {
     navigation.navigate('PlayerDetailsScreen', {
@@ -48,7 +50,7 @@ const HomeScreen = props => {
       audioDetails,
       initialAudioIndex,
       favouritesData,
-      setFavouritesData
+      setFavouritesData,
     });
   };
 

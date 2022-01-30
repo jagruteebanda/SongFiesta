@@ -29,7 +29,7 @@ const PlayerDetailsContainer = props => {
   const [isFavourite, setIsFavourite] = useState(false);
 
   const playAudioTrack = async () => {
-    await TrackPlayer.skip(audioIndex);
+    await TrackPlayer.skip(initialAudioIndex);
     await TrackPlayer.play();
   };
 

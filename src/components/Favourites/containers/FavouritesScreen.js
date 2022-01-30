@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect, useCallback} from 'react';
 import {
   Image,
   Pressable,
@@ -7,15 +7,37 @@ import {
   Text,
   View,
   Dimensions,
+  ToastAndroid,
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import {audioData} from '../../../data/audioData';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 const FavouritesScreen = props => {
   const {navigation} = props;
+  const [favouritesData, setFavouritesData] = useState([]);
+
+  const getFavouritesData = useCallback(async () => {
+    try {
+      const value = await AsyncStorage.getItem('audio_track_favourites');
+      if (value !== null) {
+        let audioData = JSON.parse(value);
+        setFavouritesData(audioData || []);
+        setup(audioData);
+      }
+    } catch (e) {
+      ToastAndroid.show('Error in Asyncstorage', ToastAndroid.SHORT);
+    }
+  });
+
+  useFocusEffect(
+    useCallback(() => {
+      getFavouritesData();
+    }, []),
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,35 +60,42 @@ const FavouritesScreen = props => {
     });
   }, [navigation]);
 
-  const setup = async () => {
+  const setup = async audioData => {
     await TrackPlayer.setupPlayer({});
     await TrackPlayer.add(audioData);
   };
 
-  useEffect(() => {
-    setup();
-  }, []);
-
   const handleAudioPress = (audioDetails, initialAudioIndex) => {
     navigation.navigate('PlayerDetailsScreen', {
-      audioData,
+      audioData: favouritesData,
       audioDetails,
       initialAudioIndex,
+      favouritesData,
+      setFavouritesData,
     });
   };
 
   return (
     <ScrollView style={styles.container}>
-      {audioData.map((item, i) => (
+      {favouritesData.map((item, i) => (
         <Pressable key={item.id} onPress={() => handleAudioPress(item, i)}>
           <View style={styles.audioCard}>
             <Image style={styles.audioImage} source={{uri: item.artwork}} />
             <View style={styles.audioInfo}>
-              <Text style={styles.audioHeading}>{item.title}</Text>
-              <Text
-                style={
-                  styles.audioSubHeading
-                }>{`${item.album} - ${item.artist}`}</Text>
+              <View>
+                <Text style={styles.audioHeading}>{item.title}</Text>
+                <Text
+                  style={
+                    styles.audioSubHeading
+                  }>{`${item.album} - ${item.artist}`}</Text>
+              </View>
+              <View style={{paddingTop: 8}}>
+                <MaterialCommunityIcons
+                  name="heart"
+                  color={'#cc0066'}
+                  size={20}
+                />
+              </View>
             </View>
           </View>
         </Pressable>
@@ -117,7 +146,10 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   audioInfo: {
-    paddingLeft: 16,
+    flex: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    justifyContent: 'space-between',
   },
   audioHeading: {
     marginTop: 4,

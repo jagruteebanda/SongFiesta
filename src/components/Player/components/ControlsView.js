@@ -4,8 +4,8 @@ import {
   View,
   Dimensions,
   Pressable,
-  Text,
   ToastAndroid,
+  Share,
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -57,7 +57,10 @@ const ControlsView = props => {
           setAudioIndex(audioIndex - 1);
           await TrackPlayer.skipToPrevious();
         } else {
-          ToastAndroid.show('No previous audio track available', ToastAndroid.SHORT);
+          ToastAndroid.show(
+            'No previous audio track available',
+            ToastAndroid.SHORT,
+          );
         }
         break;
       case 'next':
@@ -66,11 +69,35 @@ const ControlsView = props => {
           setAudioIndex(audioIndex + 1);
           await TrackPlayer.skipToNext();
         } else {
-          ToastAndroid.show('No next audio track available', ToastAndroid.SHORT);
+          ToastAndroid.show(
+            'No next audio track available',
+            ToastAndroid.SHORT,
+          );
         }
         break;
       default:
         break;
+    }
+  };
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `Listen to ${audioInfo.title} by ${audioInfo.artist} on SongFiesta`,
+        url: audioInfo.url,
+        title: 'Download SongFiesta to listen and download cool music',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      ToastAndroid.show(error.message, ToastAndroid.SHORT);
     }
   };
 
@@ -118,13 +145,15 @@ const ControlsView = props => {
       <View style={styles.sideIconsView}>
         <MaterialCommunityIcons name="download" color={'white'} size={25} />
       </View>
-      <View style={styles.sideIconsView}>
-        <MaterialCommunityIcons
-          name="share-variant"
-          color={'#e6e6e6'}
-          size={25}
-        />
-      </View>
+      <Pressable onPress={() => onShare()}>
+        <View style={styles.sideIconsView}>
+          <MaterialCommunityIcons
+            name="share-variant"
+            color={'#e6e6e6'}
+            size={25}
+          />
+        </View>
+      </Pressable>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -7,6 +7,7 @@ import PlayerDetailsContainer from './src/components/Player/containers/PlayerDet
 import HomeScreen from './src/components/Home/containers/HomeScreen';
 import FavouritesScreen from './src/components/Favourites/containers/FavouritesScreen';
 import SplashScreen from './src/components/Splash/containers/SplashScreen';
+import TrackPlayer from 'react-native-track-player';
 
 const Drawer = createDrawerNavigator();
 
@@ -35,15 +36,21 @@ const DrawerNavigator = () => {
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  useEffect(() => {
+    return async () => {
+      await TrackPlayer.stop();
+    };
+  }, []);
+
   return (
     <SafeAreaView style={styles.sectionContainer}>
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen
+          <Stack.Screen
             options={{headerShown: false}}
             name="SplashScreen"
             component={SplashScreen}
-          /> */}
+          />
           <Stack.Screen
             options={{headerShown: false}}
             name="Drawer"

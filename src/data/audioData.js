@@ -80,7 +80,41 @@ export const audioData = [
   {
     id: 8,
     url: 'https://www.bensound.com/bensound-music/bensound-dance.mp3',
-    title: 'Love',
+    title: 'All the Love',
+    artist: 'Benjamin Tissot',
+    album: "Bensound's Electronica",
+    genre: 'Electronica',
+    date: '2014-05-20T07:00:00+00:00', // RFC 3339
+    artwork: 'https://www.bensound.com/bensound-img/dance.jpg',
+    duration: 177, // Duration in seconds
+  },
+  {
+    id: 9,
+    url: 'https://www.bensound.com/bensound-music/bensound-love.mp3',
+    title: 'Dance',
+    artist: 'Benjamin Tissot',
+    album: "Bensound's Jazz",
+    genre: 'Jazz',
+    date: '2014-05-20T07:00:00+00:00', // RFC 3339
+    artwork: 'https://www.bensound.com/bensound-img/love.jpg',
+    duration: 335, // Duration in seconds
+  },
+
+  {
+    id: 10,
+    url: 'https://www.bensound.com/bensound-music/bensound-dreams.mp3',
+    title: 'The way I dream',
+    artist: 'Benjamin Tissot',
+    album: "Bensound's Electronica",
+    genre: 'Electronica',
+    date: '2014-05-20T07:00:00+00:00', // RFC 3339
+    artwork: 'https://www.bensound.com/bensound-img/dreams.jpg',
+    duration: 310, // Duration in seconds
+  },
+  {
+    id: 11,
+    url: 'https://www.bensound.com/bensound-music/bensound-dance.mp3',
+    title: 'Perfect',
     artist: 'Benjamin Tissot',
     album: "Bensound's Electronica",
     genre: 'Electronica',

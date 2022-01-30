@@ -8,12 +8,13 @@ import {
   Text,
   Pressable,
   ToastAndroid,
+  BackHandler,
 } from 'react-native';
 import {audioData} from '../../../data/audioData';
 import TrackPlayer from 'react-native-track-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
@@ -41,6 +42,13 @@ const HomeScreen = props => {
     useCallback(() => {
       setup();
       getFavouritesData();
+      const onBackPress = async () => {
+        await TrackPlayer.stop();
+        return true;
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, []),
   );
 

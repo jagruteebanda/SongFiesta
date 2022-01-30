@@ -14,7 +14,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect} from '@react-navigation/native';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const FavouritesScreen = props => {
   const {navigation} = props;
@@ -77,29 +77,62 @@ const FavouritesScreen = props => {
 
   return (
     <ScrollView style={styles.container}>
-      {favouritesData.map((item, i) => (
-        <Pressable key={item.id} onPress={() => handleAudioPress(item, i)}>
-          <View style={styles.audioCard}>
-            <Image style={styles.audioImage} source={{uri: item.artwork}} />
-            <View style={styles.audioInfo}>
-              <View>
-                <Text style={styles.audioHeading}>{item.title}</Text>
-                <Text
-                  style={
-                    styles.audioSubHeading
-                  }>{`${item.album} - ${item.artist}`}</Text>
-              </View>
-              <View style={{paddingTop: 8}}>
-                <MaterialCommunityIcons
-                  name="heart"
-                  color={'#cc0066'}
-                  size={20}
-                />
+      {favouritesData?.length > 0 ? (
+        favouritesData.map((item, i) => (
+          <Pressable key={item.id} onPress={() => handleAudioPress(item, i)}>
+            <View style={styles.audioCard}>
+              <Image style={styles.audioImage} source={{uri: item.artwork}} />
+              <View style={styles.audioInfo}>
+                <View>
+                  <Text style={styles.audioHeading}>{item.title}</Text>
+                  <Text
+                    style={
+                      styles.audioSubHeading
+                    }>{`${item.album} - ${item.artist}`}</Text>
+                </View>
+                <View style={{paddingTop: 8}}>
+                  <MaterialCommunityIcons
+                    name="heart"
+                    color={'#cc0066'}
+                    size={20}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-        </Pressable>
-      ))}
+          </Pressable>
+        ))
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            width,
+            height: height - 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Pressable onPress={() => navigation?.navigate?.('Home')}>
+            <View
+              style={{
+                paddingHorizontal: 20,
+                paddingVertical: 8,
+                borderColor: '#cc0066',
+                borderWidth: 1,
+                borderRadius: 4,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  color: '#cc0066',
+                  fontFamily: 'KleeOne-SemiBold',
+                  fontSize: 18,
+                }}>
+                {'Explore Songs'}
+              </Text>
+            </View>
+          </Pressable>
+        </View>
+      )}
     </ScrollView>
   );
 };

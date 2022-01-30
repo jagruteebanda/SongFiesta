@@ -12,7 +12,6 @@ const AudioControls = props => {
     setIsPlaying = () => {},
     seekValue = 0.0,
     setSeekValue,
-    audioDuration = 0.0,
     isMute,
     setIsMute,
     audioIndex,
@@ -46,7 +45,6 @@ const AudioControls = props => {
         audioInfo={audioInfo}
         seekValue={seekValue}
         setSeekValue={setSeekValue}
-        audioDuration={audioDuration}
       />
       <ControlsView
         isPlaying={isPlaying}

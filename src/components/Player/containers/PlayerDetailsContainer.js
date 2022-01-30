@@ -13,18 +13,17 @@ const {width, height} = Dimensions.get('window');
 const PlayerDetailsContainer = props => {
   const {route, navigation} = props;
   const {
-    audioData,
-    audioDetails,
-    initialAudioIndex,
-    favouritesData,
-    setFavouritesData,
+    audioData = [],
+    audioDetails = {},
+    initialAudioIndex = 0,
+    favouritesData = [],
+    setFavouritesData = () => {},
   } = route?.params;
 
   const [audioInfo, setAudioInfo] = useState(audioDetails);
   const [audioIndex, setAudioIndex] = useState(initialAudioIndex || 0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [seekValue, setSeekValue] = useState(0.0);
-  const [audioDuration, setAudioDuration] = useState(0.0);
   const [isMute, setIsMute] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
 
@@ -68,7 +67,6 @@ const PlayerDetailsContainer = props => {
         setIsPlaying={setIsPlaying}
         seekValue={seekValue}
         setSeekValue={setSeekValue}
-        audioDuration={audioDuration}
         isMute={isMute}
         setIsMute={setIsMute}
         audioIndex={audioIndex}

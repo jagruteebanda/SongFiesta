@@ -24,7 +24,7 @@ const ControlsView = props => {
     setAudioInfo,
     audioData = [],
     setAudioIndex,
-    favouritesData,
+    favouritesData = [],
     setFavouritesData,
     isFavourite,
     setIsFavourite,

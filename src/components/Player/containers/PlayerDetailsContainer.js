@@ -53,7 +53,6 @@ const PlayerDetailsContainer = props => {
   });
 
   const handleBackPress = async () => {
-    await TrackPlayer.stop();
     navigation?.goBack?.();
   };
 

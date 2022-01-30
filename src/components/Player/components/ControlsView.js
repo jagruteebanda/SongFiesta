@@ -36,19 +36,23 @@ const ControlsView = props => {
 
   const setFavouritesDataInAsync = async favouritesData => {
     try {
-      await AsyncStorage.setItem('audio_track_favourites', JSON.stringify(favouritesData));
+      await AsyncStorage.setItem(
+        'audio_track_favourites',
+        JSON.stringify(favouritesData),
+      );
     } catch (error) {
       ToastAndroid.show('Error in setting AsyncStorage', ToastAndroid.SHORT);
     }
   };
 
   const handleFavouritePress = () => {
-    let favData = favouritesData;
+    let favData = favouritesData || [];
     if (isFavourite) {
-      favData = favData.filter(f => f.id !== audioInfo.id);
+      favData = favData?.filter(f => f.id !== audioInfo.id);
       ToastAndroid.show('Removed from favourites', ToastAndroid.SHORT);
     } else {
-      favData.push(audioInfo);
+      let arr = favData?.filter(f => f.id === audioInfo.id);
+      arr?.length === 0 && favData.push(audioInfo);
       ToastAndroid.show('Added to favourites', ToastAndroid.SHORT);
     }
     setFavouritesDataInAsync(favData);

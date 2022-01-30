@@ -42,13 +42,6 @@ const HomeScreen = props => {
     useCallback(() => {
       setup();
       getFavouritesData();
-      const onBackPress = async () => {
-        await TrackPlayer.stop();
-        return true;
-      };
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, []),
   );
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -7,7 +7,6 @@ import PlayerDetailsContainer from './src/components/Player/containers/PlayerDet
 import HomeScreen from './src/components/Home/containers/HomeScreen';
 import FavouritesScreen from './src/components/Favourites/containers/FavouritesScreen';
 import SplashScreen from './src/components/Splash/containers/SplashScreen';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,9 +18,9 @@ const DrawerNavigator = ({navigation}) => {
         drawerStyle: {
           backgroundColor: '#000000',
         },
-        drawerLabelStyle: {
-          color: '#ffffff',
-        },
+        drawerActiveTintColor: '#cc0066',
+        drawerInactiveTintColor: '#808080',
+        overlayColor: 'rgba(204, 0, 102, 0.4)',
       }}>
       <Drawer.Screen
         options={{headerShown: false}}

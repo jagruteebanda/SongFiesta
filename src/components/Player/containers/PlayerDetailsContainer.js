@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Dimensions} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import AudioControls from '../components/AudioControls';
 import AudioImageCard from '../components/AudioImageCard';
 import HeaderControls from '../components/HeaderControls';
@@ -7,8 +7,6 @@ import TrackPlayer, {
   Event,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
-
-const {width, height} = Dimensions.get('window');
 
 const PlayerDetailsContainer = props => {
   const {route, navigation} = props;
@@ -23,7 +21,6 @@ const PlayerDetailsContainer = props => {
   const [audioInfo, setAudioInfo] = useState(audioDetails);
   const [audioIndex, setAudioIndex] = useState(initialAudioIndex || 0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [seekValue, setSeekValue] = useState(0.0);
   const [isMute, setIsMute] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
 
@@ -64,8 +61,6 @@ const PlayerDetailsContainer = props => {
         audioInfo={audioInfo}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
-        seekValue={seekValue}
-        setSeekValue={setSeekValue}
         isMute={isMute}
         setIsMute={setIsMute}
         audioIndex={audioIndex}

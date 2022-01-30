@@ -1,29 +1,20 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Pressable,
-  ToastAndroid,
-  Share,
-} from 'react-native';
+import {StyleSheet, View, Pressable, ToastAndroid, Share} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const {width, height} = Dimensions.get('window');
 
 const ControlsView = props => {
   const {
     isPlaying = false,
     setIsPlaying = () => {},
     audioInfo = {},
+    setAudioInfo,
     isMute,
     setIsMute,
     audioIndex,
-    setAudioInfo,
-    audioData = [],
     setAudioIndex,
+    audioData = [],
     favouritesData = [],
     setFavouritesData,
     isFavourite,

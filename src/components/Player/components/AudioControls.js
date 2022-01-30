@@ -3,15 +3,13 @@ import {StyleSheet, View, Dimensions, Text} from 'react-native';
 import ControlsView from './ControlsView';
 import AudioSeekBar from './AudioSeekBar';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const AudioControls = props => {
   const {
     audioInfo = {},
     isPlaying = false,
     setIsPlaying = () => {},
-    seekValue = 0.0,
-    setSeekValue,
     isMute,
     setIsMute,
     audioIndex,
@@ -41,21 +39,17 @@ const AudioControls = props => {
             fontFamily: 'KleeOne-Regular',
           }}>{`${audioInfo.album} - ${audioInfo.artist}`}</Text>
       </View>
-      <AudioSeekBar
-        audioInfo={audioInfo}
-        seekValue={seekValue}
-        setSeekValue={setSeekValue}
-      />
+      <AudioSeekBar audioInfo={audioInfo} />
       <ControlsView
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         audioInfo={audioInfo}
+        setAudioInfo={setAudioInfo}
         isMute={isMute}
         setIsMute={setIsMute}
         audioIndex={audioIndex}
-        setAudioInfo={setAudioInfo}
-        audioData={audioData}
         setAudioIndex={setAudioIndex}
+        audioData={audioData}
         favouritesData={favouritesData}
         setFavouritesData={setFavouritesData}
         isFavourite={isFavourite}

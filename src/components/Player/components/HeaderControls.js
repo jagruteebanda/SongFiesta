@@ -1,14 +1,12 @@
 import React from 'react';
 import {StyleSheet, View, Pressable} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import audioUtil from '../../../utils/AudioPlayerUtil';
 import {Constants} from '../../../common/Constants';
 
 const HeaderControls = props => {
   const {handleBackPress} = props;
 
   const backPressHandler = () => {
-    audioUtil.releaseAudioPlayer();
     handleBackPress();
   };
 
